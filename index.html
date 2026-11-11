@@ -102,14 +102,14 @@ body{margin:0;overflow:hidden;font-family:'Mali',cursive;color:var(--ink);touch-
 .polaroid img{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:linear-gradient(135deg,#fbcfe8,#f9a8d4)}
 .polaroid span{position:absolute;bottom:3px;left:0;right:0;text-align:center;font-size:10px;font-weight:600;color:#8a4a62}
 
-/* ---------- Lightbox ---------- */
+/* ---------- Lightbox (ส่วนที่แก้ให้ตรงกลางในมือถือ) ---------- */
 #lightbox{position:fixed;inset:0;background:rgba(40,10,25,.85);display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;z-index:100;backdrop-filter:blur(4px)}
 #lightbox .x{position:absolute;top:18px;right:22px;font-size:40px;color:#fff;background:none;border:0;cursor:pointer}
-.lb-box{background:#fff;padding:10px;border-radius:10px;max-width:90%;max-height:82vh;box-shadow:0 0 40px rgba(255,200,230,.4)}
-.lb-box img{display:block;max-width:100%;max-height:66vh;border-radius:6px;margin:auto}
+.lb-box{background:#fff;padding:10px;border-radius:10px;width:90vw;max-width:400px;max-height:85vh;box-shadow:0 0 40px rgba(255,200,230,.4);box-sizing:border-box}
+.lb-box img{display:block;width:100%;height:auto;max-height:70vh;object-fit:contain;border-radius:6px;margin:0 auto}
 .lb-box p{text-align:center;font-weight:600;font-size:17px;margin:10px 0 4px}
 .lb-card{background:#fffdf8;padding:34px 28px;border-radius:20px;border:4px solid #f9c9dc;outline:2px solid var(--gold);outline-offset:-10px;
- width:340px;max-width:90%;text-align:center;box-shadow:0 0 60px rgba(236,72,153,.6)}
+ width:85vw;max-width:340px;text-align:center;box-shadow:0 0 60px rgba(236,72,153,.6);box-sizing:border-box}
 .lb-card .big{font-size:56px;animation:beat2 1.4s infinite}
 @keyframes beat2{50%{transform:scale(1.15)}}
 .lb-card h2{font-family:'Charm',cursive;font-size:34px;color:var(--deep);margin:6px 0 14px;line-height:1.1}
@@ -168,7 +168,6 @@ body{margin:0;overflow:hidden;font-family:'Mali',cursive;color:var(--ink);touch-
 </div>
 
 <script>
-/* ====== ใช้ URL เต็มของ GitHub Pages เพื่อป้องกันรูปหาย ====== */
 const CONFIG = {
   message: "ย้อนหลังน้า อะไรที่ไม่ดีทำตัวไม่ดีขอโทษน้า เรียนเก่งๆ สุขภาพแข็งแรงค่ะ จุ๊บม๊วะ รักเธอที่ซูดดดด",
   signoff: "ขอบคุณที่อยู่ข้างๆกันค่ะ<br>จุ๊บบบบบ 💋",
@@ -198,7 +197,6 @@ CONFIG.photos.forEach((p,i)=>{
   const d=document.createElement('div'); d.className='pw';
   d.style.cssText=`left:${p.x}px;top:${p.y}px;--r:${p.r}deg;--fx:${-p.x}px;--fy:${150-p.y}px`;
   
-  // นำโค้ดซ่อนรูปที่ทำให้แสดงกล่องสีชมพูออก เพื่อให้ดึงรูปมาโชว์ได้ปกติ
   d.innerHTML=`<div class="polaroid" style="--d:${i*0.6}s"><img src="${p.src}" alt=""><span>แตะรูป 👆</span></div>`;
   d.onclick=()=>openImg(p.src,p.cap); pc.appendChild(d);
 });
