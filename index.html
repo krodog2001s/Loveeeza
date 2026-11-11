@@ -160,7 +160,7 @@ body{margin:0;overflow:hidden;font-family:'Mali',cursive;color:var(--ink);touch-
 <div id="photos-container"></div>
 
 <div id="lightbox" onclick="closeLb(event)">
-  <button class="x" onclick="closeLb()">&times;</button>
+  <button class="x" onclick="closeLb()">×</button>
   <div class="lb-box" id="lb-img" style="display:none" onclick="event.stopPropagation()"><img id="lb-src" alt=""><p id="lb-cap"></p></div>
   <div class="lb-card" id="lb-card" style="display:none" onclick="event.stopPropagation()">
     <div class="big">💖</div><h2>Happy Belated<br>Anniversary!</h2><p id="msg-l"></p><div class="sig" id="sig-l"></div>
@@ -168,16 +168,15 @@ body{margin:0;overflow:hidden;font-family:'Mali',cursive;color:var(--ink);touch-
 </div>
 
 <script>
-/* ====== แก้ตรงนี้ได้เลย ====== */
+/* ====== ใช้ URL เต็มของ GitHub Pages เพื่อป้องกันรูปหาย ====== */
 const CONFIG = {
   message: "ย้อนหลังน้า อะไรที่ไม่ดีทำตัวไม่ดีขอโทษน้า เรียนเก่งๆ สุขภาพแข็งแรงค่ะ จุ๊บม๊วะ รักเธอที่ซูดดดด",
   signoff: "ขอบคุณที่อยู่ข้างๆกันค่ะ<br>จุ๊บบบบบ 💋",
-  // เปลี่ยน src เป็นลิงก์รูปของพวกเธอได้ (ถ้ารูปโหลดไม่ได้ จะขึ้นเป็นพื้นสีชมพูแทน)
   photos: [
-    {src:"1.png", cap:"", x:-182, y:-255, r:-12},
-    {src:"3.png", cap:"", x:76,   y:-285, r:10},
-    {src:"2.png", cap:"", x:-178, y:-80,  r:-8},
-    {src:"4.png", cap:"", x:78,   y:-58,  r:15}
+    {src:"https://krodog2001s.github.io/Loveeeza/1.png", cap:"", x:-182, y:-255, r:-12},
+    {src:"https://krodog2001s.github.io/Loveeeza/3.png", cap:"", x:76,   y:-285, r:10},
+    {src:"https://krodog2001s.github.io/Loveeeza/2.png", cap:"", x:-178, y:-80,  r:-8},
+    {src:"https://krodog2001s.github.io/Loveeeza/4.png", cap:"", x:78,   y:-58,  r:15}
   ]
 };
 const $ = id => document.getElementById(id);
@@ -187,10 +186,10 @@ $('sig-s').innerHTML = $('sig-l').innerHTML = CONFIG.signoff;
 /* ----- พื้นหลัง: bokeh + หัวใจลอย ----- */
 const bg = $('bg'), cols = ['#fff','#ffd1e3','#ffe9a8','#f9a8d4'];
 for (let i=0;i<10;i++){const b=document.createElement('div');b.className='bokeh';const s=40+Math.random()*90;
-  Object.assign(b.style,{width:s+'px',height:s+'px',left:Math.random()*100+'%',top:Math.random()*100+'%',background:cols[i%4],animationDelay:-Math.random()*8+'s'});bg.appendChild(b);}
+ Object.assign(b.style,{width:s+'px',height:s+'px',left:Math.random()*100+'%',top:Math.random()*100+'%',background:cols[i%4],animationDelay:-Math.random()*8+'s'});bg.appendChild(b);}
 const hs=['💖','🩷','✨','💗','🌸'];
 for (let i=0;i<22;i++){const h=document.createElement('div');h.className='float-h';h.textContent=hs[i%hs.length];
-  Object.assign(h.style,{left:Math.random()*100+'%',fontSize:12+Math.random()*20+'px',animationDuration:6+Math.random()*7+'s',animationDelay:-Math.random()*10+'s'});bg.appendChild(h);}
+ Object.assign(h.style,{left:Math.random()*100+'%',fontSize:12+Math.random()*20+'px',animationDuration:6+Math.random()*7+'s',animationDelay:-Math.random()*10+'s'});bg.appendChild(h);}
 
 /* ----- โพลารอยด์ ----- */
 const pc = $('photos-container');
@@ -198,8 +197,9 @@ const sc = Math.min(1, innerWidth/400); pc.style.transform = `scale(${sc})`;
 CONFIG.photos.forEach((p,i)=>{
   const d=document.createElement('div'); d.className='pw';
   d.style.cssText=`left:${p.x}px;top:${p.y}px;--r:${p.r}deg;--fx:${-p.x}px;--fy:${150-p.y}px`;
-  d.innerHTML=`<div class="polaroid" style="--d:${i*0.6}s"><img src="${p.src.replace('w=600','w=400')}" alt=""><span>แตะรูป 👆</span></div>`;
-  d.querySelector('img').onerror=e=>e.target.removeAttribute('src');
+  
+  // นำโค้ดซ่อนรูปที่ทำให้แสดงกล่องสีชมพูออก เพื่อให้ดึงรูปมาโชว์ได้ปกติ
+  d.innerHTML=`<div class="polaroid" style="--d:${i*0.6}s"><img src="${p.src}" alt=""><span>แตะรูป 👆</span></div>`;
   d.onclick=()=>openImg(p.src,p.cap); pc.appendChild(d);
 });
 
@@ -227,13 +227,13 @@ mc.addEventListener('mousedown',start); document.addEventListener('mousemove',mo
 mc.addEventListener('touchstart',start,{passive:false}); document.addEventListener('touchmove',move,{passive:false}); document.addEventListener('touchend',end);
 const pt = e => e.touches?e.touches[0]:e;
 function start(e){ if(lit)return; mc.style.animation='none'; mc.style.transition='';
-  ix=pt(e).clientX-cx; iy=pt(e).clientY-cy; drag=true; ins.style.opacity='0'; match.classList.add('striking'); }
+ ix=pt(e).clientX-cx; iy=pt(e).clientY-cy; drag=true; ins.style.opacity='0'; match.classList.add('striking'); }
 function move(e){ if(!drag||lit)return; e.preventDefault();
-  cx=pt(e).clientX-ix; cy=pt(e).clientY-iy;
-  mc.style.transform=`translate(${cx}px,${cy}px) rotate(-15deg)`; hit(); }
+ cx=pt(e).clientX-ix; cy=pt(e).clientY-iy;
+ mc.style.transform=`translate(${cx}px,${cy}px) rotate(-15deg)`; hit(); }
 function end(){ if(!drag||lit)return; drag=false; cx=cy=0; match.classList.remove('striking');
-  mc.style.transition='transform .35s ease'; mc.style.transform='translate(0,0) rotate(0)';
-  setTimeout(()=>{ if(!lit){mc.style.transition='';mc.style.animation='fl 3s ease-in-out infinite';ins.style.opacity='1';} },350); }
+ mc.style.transition='transform .35s ease'; mc.style.transform='translate(0,0) rotate(0)';
+ setTimeout(()=>{ if(!lit){mc.style.transition='';mc.style.animation='fl 3s ease-in-out infinite';ins.style.opacity='1';} },350); }
 function hit(){
   const a=tip.getBoundingClientRect(), b=$('target-hole').getBoundingClientRect();
   if(a.right>b.left+8&&a.left<b.right-8&&a.bottom>b.top+8&&a.top<b.bottom-8) ignite();
@@ -270,8 +270,8 @@ const lb=$('lightbox');
 function showLb(){ lb.style.display='flex'; setTimeout(()=>lb.style.opacity='1',10); }
 function openImg(src,cap){ $('lb-src').src=src; $('lb-cap').textContent=cap; $('lb-cap').style.display=cap?'block':'none'; $('lb-img').style.display='block'; $('lb-card').style.display='none'; showLb(); }
 function openCard(){ if(!$('the-card').classList.contains('pulled'))return;
-  $('lb-card').style.display='block'; $('lb-img').style.display='none'; showLb();
-  const r=lb.getBoundingClientRect(); burst(r.width/2,r.height/2,24,220); }
+ $('lb-card').style.display='block'; $('lb-img').style.display='none'; showLb();
+ const r=lb.getBoundingClientRect(); burst(r.width/2,r.height/2,24,220); }
 function closeLb(e){ if(e&&e.target!==lb)return; lb.style.opacity='0'; setTimeout(()=>{lb.style.display='none';$('lb-src').src='';},300); }
 </script>
 </body>
